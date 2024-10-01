@@ -129,10 +129,6 @@
                     <groupId>org.hibernate.search</groupId>
                     <artifactId>hibernate-search-backend-elasticsearch-aws</artifactId>
                 </exclusion>
-                <exclusion>
-                    <groupId>co.elastic.apm</groupId>
-                    <artifactId>apm-agent-api</artifactId>
-                </exclusion>
             </exclusions>
         </dependency>
         <!-- This dependency includes the JPA CQL Server -->
