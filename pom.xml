@@ -117,6 +117,22 @@
                     <groupId>commons-logging</groupId>
                     <artifactId>commons-logging</artifactId>
                 </exclusion>
+                <exclusion>
+                    <groupId>com.oracle.database.jdbc</groupId>
+                    <artifactId>ojdbc11</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.elasticsearch.client</groupId>
+                    <artifactId>elasticsearch-rest-high-level-client</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.hibernate.search</groupId>
+                    <artifactId>hibernate-search-backend-elasticsearch-aws</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>co.elastic.apm</groupId>
+                    <artifactId>apm-agent-api</artifactId>
+                </exclusion>
             </exclusions>
         </dependency>
         <!-- This dependency includes the JPA CQL Server -->
@@ -260,6 +276,14 @@
                 <exclusion>
                     <groupId>com.sun.xml.bind</groupId>
                     <artifactId>jaxb-impl</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.oracle.database.jdbc</groupId>
+                    <artifactId>ojdbc11</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.testcontainers</groupId>
+                    <artifactId>elasticsearch</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
@@ -436,6 +460,16 @@
                         </goals>
                         <configuration>
                             <mainClass>ca.uhn.fhir.jpa.starter.Application</mainClass>
+                            <excludes>
+                                <exclude>
+                                    <groupId>org.elasticsearch.client</groupId>
+                                    <artifactId>elasticsearch-rest-client</artifactId>
+                                </exclude>
+                                <exclude>
+                                    <groupId>org.elasticsearch.client</groupId>
+                                    <artifactId>elasticsearch-rest-client-sniffer</artifactId>
+                                </exclude>
+                            </excludes>
                         </configuration>
                     </execution>
                 </executions>
