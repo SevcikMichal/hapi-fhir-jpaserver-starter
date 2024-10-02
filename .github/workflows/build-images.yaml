@@ -3,13 +3,9 @@ name: Build Container Images
 on:
   push:
     tags:
-      - "image/v*"
-    paths-ignore:
-      - "charts/**"
-  pull_request:
-    branches: [master]
-    paths-ignore:
-      - "charts/**"
+      - "*"
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
 env:
   IMAGES: docker.io/hapiproject/hapi
   PLATFORMS: linux/amd64,linux/arm64/v8
