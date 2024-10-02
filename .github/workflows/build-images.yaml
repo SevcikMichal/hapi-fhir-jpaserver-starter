@@ -21,16 +21,17 @@ jobs:
         with:
           images: ${{ env.IMAGES }}
           tags: |
-            type=match,pattern=image-(.*),group=1,enable=${{github.event_name != 'pull_request'}}
-           
-
+            type=ref,event=branch
+            type=ref,event=tag
+      
       - name: Container meta for tomcat image
         id: docker_tomcat_meta
         uses: docker/metadata-action@v3
         with:
           images: ${{ env.IMAGES }}
           tags: |
-            type=match,pattern=image-(.*),group=1,enable=${{github.event_name != 'pull_request'}}
+            type=ref,event=branch
+            type=ref,event=tag
           flavor: |
             suffix=-tomcat,onlatest=true
 
