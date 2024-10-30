@@ -53,6 +53,9 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-buildx-
 
+      - name: List workspace files
+        run: ls -al
+
       - name: Build and push default (distroless) image
         id: docker_build
         uses: docker/build-push-action@v2
