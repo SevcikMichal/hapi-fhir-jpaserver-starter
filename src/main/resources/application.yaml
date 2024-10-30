@@ -15,7 +15,7 @@ spring:
     baselineOnMigrate: true
   datasource:
     url: 'jdbc:h2:file:./target/database/h2'
-    #url: jdbc:h2:mem:test_mem
+#    url: jdbc:h2:mem:test_mem
     username: sa
     password: null
     driverClassName: org.h2.Driver
@@ -197,7 +197,8 @@ hapi:
 #    bulk_export_enabled: true
 #    subscription:
 #      resthook_enabled: true
-#      websocket_enabled: false
+#      websocket_enabled: true
+#      change_queued_immediately: true
 #      email:
 #        from: some@test.com
 #        host: google.com

@@ -760,9 +760,21 @@ public class AppProperties {
       this.websocket_enabled = websocket_enabled;
     }
 
-    private Boolean resthook_enabled = false;
+	  public Boolean getChange_queued_immediately() {
+		  return change_queued_immediately;
+	  }
+
+	  public void setChange_queued_immediately(Boolean change_queued_immediately) {
+		  this.change_queued_immediately = change_queued_immediately;
+	  }
+
+	 private Boolean resthook_enabled = false;
     private Boolean websocket_enabled = false;
-    private Email email = null;
+
+	 private Boolean change_queued_immediately = true;
+
+	 
+	 private Email email = null;
 
     public Email getEmail() {
       return email;

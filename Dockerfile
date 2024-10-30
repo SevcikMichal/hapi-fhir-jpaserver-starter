@@ -6,16 +6,17 @@ RUN curl -LSsO https://github.com/open-telemetry/opentelemetry-java-instrumentat
 
 COPY pom.xml .
 COPY server.xml .
-RUN mvn -ntp dependency:go-offline
+COPY settings.xml .
+RUN mvn --settings settings.xml -ntp dependency:go-offline
 
 COPY src/ /tmp/hapi-fhir-jpaserver-starter/src/
-RUN mvn clean install -Dmaven.test.skip=true -DskipTests -Djdk.lang.Process.launchMechanism=vfork
+RUN mvn --settings settings.xml clean install -Dmaven.test.skip=true -DskipTests -Djdk.lang.Process.launchMechanism=vfork
 
 COPY RemoveJrtFs.java .
 RUN javac RemoveJrtFs.java
 
 FROM build-hapi AS build-distroless
-RUN mvn package -Dmaven.test.skip=true -DskipTests spring-boot:repackage -Pboot
+RUN mvn --settings settings.xml package -Dmaven.test.skip=true -DskipTests spring-boot:repackage -Pboot
 RUN mkdir /app && cp /tmp/hapi-fhir-jpaserver-starter/target/ROOT.war /app/main.war
 
 ########### bitnami tomcat version is suitable for debugging and comes with a shell

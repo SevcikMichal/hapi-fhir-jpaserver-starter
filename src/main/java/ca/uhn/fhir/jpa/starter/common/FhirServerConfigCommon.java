@@ -226,7 +226,7 @@ public class FhirServerConfigCommon {
 					appProperties.getSubscription().getEmail().getFrom());
 
 		jpaStorageSettings.setNormalizedQuantitySearchLevel(appProperties.getNormalized_quantity_search_level());
-
+		jpaStorageSettings.setSubscriptionChangeQueuedImmediately(appProperties.getSubscription().getChange_queued_immediately());
 		jpaStorageSettings.setIndexOnContainedResources(appProperties.getEnable_index_contained_resource());
 		jpaStorageSettings.setIndexIdentifierOfType(appProperties.getEnable_index_of_type());
 		return jpaStorageSettings;
