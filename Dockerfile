@@ -9,10 +9,13 @@ COPY server.xml .
 RUN mvn -ntp dependency:go-offline
 
 COPY src/ /tmp/hapi-fhir-jpaserver-starter/src/
-RUN mvn clean install -DskipTests -Djdk.lang.Process.launchMechanism=vfork
+RUN mvn clean install -Dmaven.test.skip=true -DskipTests -Djdk.lang.Process.launchMechanism=vfork
+
+COPY RemoveJrtFs.java .
+RUN javac RemoveJrtFs.java
 
 FROM build-hapi AS build-distroless
-RUN mvn package -DskipTests spring-boot:repackage -Pboot
+RUN mvn package -Dmaven.test.skip=true -DskipTests spring-boot:repackage -Pboot
 RUN mkdir /app && cp /tmp/hapi-fhir-jpaserver-starter/target/ROOT.war /app/main.war
 
 
@@ -38,6 +41,10 @@ ENV ALLOW_EMPTY_PASSWORD=yes
 
 ########### distroless brings focus on security and runs on plain spring boot - this is the default image
 FROM gcr.io/distroless/java17-debian12:nonroot AS default
+# Remove jrt-fs.jar from the JDK lib directory
+USER root
+COPY --from=build-hapi /tmp/hapi-fhir-jpaserver-starter/RemoveJrtFs.class .
+RUN ["java", "RemoveJrtFs"]
 # 65532 is the nonroot user's uid
 # used here instead of the name to allow Kubernetes to easily detect that the container
 # is running as a non-root (uid != 0) user.
