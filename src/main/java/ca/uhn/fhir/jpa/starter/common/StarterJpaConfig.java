@@ -73,6 +73,7 @@ import ca.uhn.fhir.validation.IValidatorModule;
 import ca.uhn.fhir.validation.ResultSeverityEnum;
 import com.google.common.base.Strings;
 import jakarta.persistence.EntityManagerFactory;
+import org.hl7.fhir.utilities.npm.FilesystemPackageCacheManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
@@ -92,6 +93,8 @@ import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.web.cors.CorsConfiguration;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -206,7 +209,9 @@ public class StarterJpaConfig {
 	public IPackageInstallerSvc packageInstaller(
 			AppProperties appProperties,
 			IPackageInstallerSvc packageInstallerSvc,
-			Batch2JobRegisterer batch2JobRegisterer) {
+			Batch2JobRegisterer batch2JobRegisterer) throws IOException {
+
+		var pmc = new FilesystemPackageCacheManager.Builder().build();
 
 		batch2JobRegisterer.start();
 
@@ -223,6 +228,8 @@ public class StarterJpaConfig {
 							.addDependencyExclude("hl7.fhir.r5.core");
 				}
 				packageInstallerSvc.install(packageInstallationSpec);
+				// This is required for validation to work with already installed packages.
+				pmc.addPackageToCache(packageInstallationSpec.getName(), packageInstallationSpec.getVersion(), new ByteArrayInputStream(packageInstallationSpec.getPackageContents()), packageInstallationSpec.getName());
 			}
 		}
 		return packageInstallerSvc;
