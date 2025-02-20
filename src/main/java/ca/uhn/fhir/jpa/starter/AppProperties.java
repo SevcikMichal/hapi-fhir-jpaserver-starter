@@ -879,6 +879,7 @@ public class AppProperties {
 		private Boolean resthook_enabled = false;
 		private Boolean websocket_enabled = false;
 		private Email email = null;
+		private Boolean change_queued_immediately = true;
 
 		public Boolean getResthook_enabled() {
 			return resthook_enabled;
@@ -895,6 +896,9 @@ public class AppProperties {
 		public void setWebsocket_enabled(Boolean websocket_enabled) {
 			this.websocket_enabled = websocket_enabled;
 		}
+
+		public Boolean getChange_queued_immediately() { return change_queued_immediately; }
+		public void setChange_queued_immediately(Boolean change_queued_immediately) { this.change_queued_immediately = change_queued_immediately; }
 
 		public Email getEmail() {
 			return email;

@@ -114,6 +114,10 @@ public class FhirServerConfigCommon {
 				subscriptionSettings.addSupportedSubscriptionType(
 						org.hl7.fhir.dstu2.model.Subscription.SubscriptionChannelType.WEBSOCKET);
 			}
+			if(appProperties.getSubscription().getChange_queued_immediately()){
+				ourLog.info("Enabling immediate subscription enqueue");
+				subscriptionSettings.setSubscriptionChangeQueuedImmediately(appProperties.getSubscription().getChange_queued_immediately());
+			}
 		}
 		if (appProperties.getMdm_enabled()) {
 			// MDM requires the subscription of type message
