@@ -303,6 +303,7 @@ hapi:
 #    subscription:
 #      resthook_enabled: true
 #      websocket_enabled: false
+#      change_queued_immediately: true
 #      email:
 #        from: some@test.com
 #        host: google.com
