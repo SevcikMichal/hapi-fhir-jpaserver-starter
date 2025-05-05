@@ -80,6 +80,7 @@ public class ModuleConfigurationPrefetchSvc extends CdsPrefetchSvc {
 				theResourcePrefetchDao,
 				theResourcePrefetchFhirClient,
 				theCdsHooksDaoAuthorizationSvc,
+				theResourcePrefetchDao.getFhirContext(),
 				theInterceptorBroadcaster);
 		myResourcePrefetchFhirClient = theResourcePrefetchFhirClient;
 		fhirContext = theResourcePrefetchDao.getFhirContext();
