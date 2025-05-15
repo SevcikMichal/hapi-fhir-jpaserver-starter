@@ -155,6 +155,7 @@ public class FhirServerConfigCommon {
 		jpaStorageSettings.setLanguageSearchParameterEnabled(appProperties.getLanguage_search_parameter_enabled());
 		jpaStorageSettings.setValidateResourceStatusForPackageUpload(
 				appProperties.getValidate_resource_status_for_package_upload());
+		jpaStorageSettings.setStoreMetaSourceInformation(JpaStorageSettings.StoreMetaSourceInformationEnum.NONE);
 		jpaStorageSettings.setIndexOnUpliftedRefchains(appProperties.getUpliftedRefchains_enabled());
 
 		if (!appProperties.getSearch_prefetch_thresholds().isEmpty()) {
