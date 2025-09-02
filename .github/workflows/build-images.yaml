@@ -18,11 +18,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Prepare settings.xml
-        run: |
-          cp settings.xml.template settings.xml
-          sed -i 's/{REPLACE_TOKEN}/'${{ secrets.GITHUB_TOKEN }}'/g' settings.xml
-
       - name: Container meta for default (distroless) image
         id: docker_meta
         uses: docker/metadata-action@v5
