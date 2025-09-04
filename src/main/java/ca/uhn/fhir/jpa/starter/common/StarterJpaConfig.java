@@ -80,6 +80,7 @@ import ca.uhn.fhir.validation.ResultSeverityEnum;
 import com.google.common.base.Strings;
 import jakarta.persistence.EntityManagerFactory;
 import org.hl7.fhir.instance.model.api.IBaseBundle;
+import org.hl7.fhir.utilities.npm.FilesystemPackageCacheManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
@@ -99,6 +100,7 @@ import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.web.cors.CorsConfiguration;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.*;
 import javax.sql.DataSource;
@@ -216,6 +218,8 @@ public class StarterJpaConfig {
 			IHapiPackageCacheManager iHapiPackageCacheManager)
 			throws IOException {
 
+		var pmc = new FilesystemPackageCacheManager.Builder().build();
+
 		batch2JobRegisterer.start();
 
 		if (appProperties.getImplementationGuides() != null) {
@@ -232,6 +236,8 @@ public class StarterJpaConfig {
 				}
 
 				packageInstallerSvc.install(packageInstallationSpec);
+				// This is required for validation to work with already installed packages.
+				pmc.addPackageToCache(packageInstallationSpec.getName(), packageInstallationSpec.getVersion(), new ByteArrayInputStream(packageInstallationSpec.getPackageContents()), packageInstallationSpec.getName());
 
 				Set<String> extraResources = packageInstallationSpec.getAdditionalResourceFolders();
 				packageInstallationSpec.setPackageContents(iHapiPackageCacheManager
