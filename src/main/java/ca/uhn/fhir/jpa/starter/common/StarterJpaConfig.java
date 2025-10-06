@@ -460,8 +460,7 @@ public class StarterJpaConfig {
 			}
 		}
 
-		ourLog.info("Setting ValidationSupportChain.setCodeableConceptValidationSuccessfulIfNotAllCodingsAreValid to true");
-		theValidationSupportChain.setCodeableConceptValidationSuccessfulIfNotAllCodingsAreValid(true);
+		theValidationSupportChain.setCodeableConceptValidationSuccessfulIfNotAllCodingsAreValid(appProperties.getValidation_success_codings_not_valid());
 
 		// GraphQL
 		if (appProperties.getGraphql_enabled()) {

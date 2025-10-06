@@ -118,6 +118,7 @@ public class AppProperties {
 	private Map<String, RemoteSystem> remote_terminology_service = null;
 	private Boolean match_url_cache_enabled = false;
 	private Boolean index_storage_optimized = false;
+	private Boolean validation_success_codings_not_valid = false;
 
 	public List<String> getCustomInterceptorClasses() {
 		return custom_interceptor_classes;
@@ -792,6 +793,14 @@ public class AppProperties {
 	public void setStore_meta_source_information(
 			JpaStorageSettings.StoreMetaSourceInformationEnum store_meta_source_information) {
 		this.store_meta_source_information = store_meta_source_information;
+	}
+
+	public void setValidation_success_codings_not_valid(boolean validation_success_codings_not_valid) {
+		this.validation_success_codings_not_valid = validation_success_codings_not_valid;
+	}
+
+	public boolean getValidation_success_codings_not_valid() {
+		return this.validation_success_codings_not_valid;
 	}
 
 	public static class Cors {
