@@ -350,6 +350,8 @@ hapi:
     #      requests_enabled: true
     #      responses_enabled: true
     #    binary_storage_enabled: true
+    # validation_success_codings_not_valid defaults to false
+    validation_success_codings_not_valid: true
     inline_resource_storage_below_size: 4000
 #    bulk_export_enabled: true
 #    subscription:
