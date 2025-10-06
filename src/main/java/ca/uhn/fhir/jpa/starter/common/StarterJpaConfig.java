@@ -79,6 +79,7 @@ import ca.uhn.fhir.validation.IValidatorModule;
 import ca.uhn.fhir.validation.ResultSeverityEnum;
 import com.google.common.base.Strings;
 import jakarta.persistence.EntityManagerFactory;
+import org.hl7.fhir.common.hapi.validation.support.ValidationSupportChain;
 import org.hl7.fhir.instance.model.api.IBaseBundle;
 import org.hl7.fhir.utilities.npm.FilesystemPackageCacheManager;
 import org.slf4j.Logger;
@@ -289,37 +290,38 @@ public class StarterJpaConfig {
 
 	@Bean
 	public RestfulServer restfulServer(
-			IFhirSystemDao<?, ?> fhirSystemDao,
-			AppProperties appProperties,
-			DaoRegistry daoRegistry,
-			Optional<MdmProviderLoader> mdmProviderProvider,
-			IJpaSystemProvider jpaSystemProvider,
-			ResourceProviderFactory resourceProviderFactory,
-			JpaStorageSettings jpaStorageSettings,
-			SubscriptionSettings subscriptionSettings,
-			ISearchParamRegistry searchParamRegistry,
-			IValidationSupport theValidationSupport,
-			DatabaseBackedPagingProvider databaseBackedPagingProvider,
-			LoggingInterceptor loggingInterceptor,
-			Optional<TerminologyUploaderProvider> terminologyUploaderProvider,
-			Optional<SubscriptionTriggeringProvider> subscriptionTriggeringProvider,
-			Optional<CorsInterceptor> corsInterceptor,
-			IInterceptorBroadcaster interceptorBroadcaster,
-			Optional<BinaryAccessProvider> binaryAccessProvider,
-			BinaryStorageInterceptor binaryStorageInterceptor,
-			IValidatorModule validatorModule,
-			Optional<GraphQLProvider> graphQLProvider,
-			BulkDataExportProvider bulkDataExportProvider,
-			BulkDataImportProvider bulkDataImportProvider,
-			ValueSetOperationProvider theValueSetOperationProvider,
-			ReindexProvider reindexProvider,
-			Optional<RepositoryValidatingInterceptor> repositoryValidatingInterceptor,
-			IPackageInstallerSvc packageInstallerSvc,
-			ThreadSafeResourceDeleterSvc theThreadSafeResourceDeleterSvc,
-			ApplicationContext appContext,
-			Optional<IpsOperationProvider> theIpsOperationProvider,
-			Optional<IImplementationGuideOperationProvider> implementationGuideOperationProvider,
-			DiffProvider diffProvider) {
+		IFhirSystemDao<?, ?> fhirSystemDao,
+		AppProperties appProperties,
+		DaoRegistry daoRegistry,
+		Optional<MdmProviderLoader> mdmProviderProvider,
+		IJpaSystemProvider jpaSystemProvider,
+		ResourceProviderFactory resourceProviderFactory,
+		JpaStorageSettings jpaStorageSettings,
+		SubscriptionSettings subscriptionSettings,
+		ISearchParamRegistry searchParamRegistry,
+		IValidationSupport theValidationSupport,
+		DatabaseBackedPagingProvider databaseBackedPagingProvider,
+		LoggingInterceptor loggingInterceptor,
+		Optional<TerminologyUploaderProvider> terminologyUploaderProvider,
+		Optional<SubscriptionTriggeringProvider> subscriptionTriggeringProvider,
+		Optional<CorsInterceptor> corsInterceptor,
+		IInterceptorBroadcaster interceptorBroadcaster,
+		Optional<BinaryAccessProvider> binaryAccessProvider,
+		BinaryStorageInterceptor binaryStorageInterceptor,
+		IValidatorModule validatorModule,
+		Optional<GraphQLProvider> graphQLProvider,
+		BulkDataExportProvider bulkDataExportProvider,
+		BulkDataImportProvider bulkDataImportProvider,
+		ValueSetOperationProvider theValueSetOperationProvider,
+		ReindexProvider reindexProvider,
+		Optional<RepositoryValidatingInterceptor> repositoryValidatingInterceptor,
+		IPackageInstallerSvc packageInstallerSvc,
+		ThreadSafeResourceDeleterSvc theThreadSafeResourceDeleterSvc,
+		ApplicationContext appContext,
+		Optional<IpsOperationProvider> theIpsOperationProvider,
+		Optional<IImplementationGuideOperationProvider> implementationGuideOperationProvider,
+		DiffProvider diffProvider,
+		ValidationSupportChain theValidationSupportChain) {
 		RestfulServer fhirServer = new RestfulServer(fhirSystemDao.getContext());
 
 		List<String> supportedResourceTypes = appProperties.getSupported_resource_types();
@@ -457,6 +459,9 @@ public class StarterJpaConfig {
 				fhirServer.registerInterceptor(interceptor);
 			}
 		}
+
+		ourLog.info("Setting ValidationSupportChain.setCodeableConceptValidationSuccessfulIfNotAllCodingsAreValid to true");
+		theValidationSupportChain.setCodeableConceptValidationSuccessfulIfNotAllCodingsAreValid(true);
 
 		// GraphQL
 		if (appProperties.getGraphql_enabled()) {
